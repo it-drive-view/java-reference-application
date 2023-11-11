@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("api/v1/student")
 public class StudentController {
 
-    private final StudentService studentService;
+    private StudentService studentService = new StudentService();
 
     // useless, but i keep it, just for the comprehension
     @Autowired
