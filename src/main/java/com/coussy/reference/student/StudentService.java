@@ -37,6 +37,8 @@ public class StudentService {
         studentRepository.deleteById(studentId);
     }
 
+    // avec cette annotation, le simple fait de setter un field dans l'objet java l'enregsitre en base!
+    // il n'est pas nécessaire de solliciter la commande save de la couche dao!
     @Transactional
     public void updateStudent(Long studentId, String name, String email) {
         Student student = studentRepository
