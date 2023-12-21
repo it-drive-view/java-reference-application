@@ -29,6 +29,14 @@ public class StudentService {
         studentRepository.save(student);
     }
 
+    public Student findStudent(String email) {
+        Optional<Student> optional = studentRepository.findStudentByEmail(email);
+        if (optional.isPresent()) {
+            return optional.get();
+        }
+        return null;
+    }
+
     public void deleteStudent(Long studentId) {
         boolean exists = studentRepository.existsById(studentId);
         if (!exists) {

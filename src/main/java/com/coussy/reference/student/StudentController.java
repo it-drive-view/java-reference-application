@@ -1,6 +1,8 @@
 package com.coussy.reference.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,7 +13,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    // useless, but i keep it, just for the comprehension
+    //  useless, but i keep it, just for the comprehension
     @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
@@ -22,9 +24,22 @@ public class StudentController {
         return studentService.getStudents();
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<String> available() {
+        return new ResponseEntity<>("\"service available\"", HttpStatus.OK);
+    }
+
+
+    @GetMapping("/{email}")
+    public Student getStudent(@PathVariable("email")  String email) {
+        return studentService.findStudent(email);
+    }
+
+
     @PostMapping
-    public void registerNewStudent(@RequestBody Student student) {
+    public String registerNewStudent(@RequestBody Student student) {
         studentService.addNewStudent(student);
+        return "student registered";
     }
 
     @DeleteMapping(path = "/{studentId}")
