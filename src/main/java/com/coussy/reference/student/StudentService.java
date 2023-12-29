@@ -1,5 +1,7 @@
 package com.coussy.reference.student;
 
+import com.coussy.reference.data.provider.dto.ProductDto;
+import com.coussy.reference.data.provider.http.DataProviderHttpClient;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,12 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+    private final DataProviderHttpClient dataProviderHttpClient;
+
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, DataProviderHttpClient dataProviderHttpClient) {
         this.studentRepository = studentRepository;
+        this.dataProviderHttpClient = dataProviderHttpClient;
     }
 
     public List<Student> getStudents() {
@@ -70,4 +75,13 @@ public class StudentService {
         }
 
     }
+
+    public String getToken() {
+        return dataProviderHttpClient.getToken();
+    }
+
+    public ProductDto getProduct() {
+        return dataProviderHttpClient.getProduct();
+    }
+
 }
