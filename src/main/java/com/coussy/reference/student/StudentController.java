@@ -1,10 +1,13 @@
 package com.coussy.reference.student;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RestController
@@ -18,6 +21,13 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+
+    @GetMapping(value="/plain", produces = MediaType.TEXT_PLAIN_VALUE)
+    public String serviceOk() {
+return "OK";
+    }
+
+
 
     @GetMapping
     public List<Student> getStudents() {
