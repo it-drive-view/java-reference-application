@@ -1,5 +1,6 @@
 package com.coussy.reference.student;
 
+import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,9 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/student")
 public class StudentController {
+
+    @Autowired
+    OkHttpClient okHttpClient;
 
     private final StudentService studentService;
 
