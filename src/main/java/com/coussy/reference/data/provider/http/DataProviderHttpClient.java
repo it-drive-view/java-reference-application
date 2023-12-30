@@ -19,6 +19,8 @@ import java.util.Objects;
 
 public class DataProviderHttpClient {
 
+
+
     // FIXME recopié pour le moment du projet MPay ==> à étudier
     private final String HTTP_CLIENT_IDENTIFIER = "admis-pour-le-moment";
 
