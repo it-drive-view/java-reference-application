@@ -11,6 +11,10 @@ public class ProductDto {
         this.name = name;
     }
 
+    // for jackson unmarshall
+    public ProductDto() {
+    }
+
     public String getId() {
         return id;
     }

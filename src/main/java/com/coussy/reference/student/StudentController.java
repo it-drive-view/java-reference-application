@@ -20,11 +20,10 @@ public class StudentController {
         this.studentService = studentService;
     }
 
-    @GetMapping(value="/plain", produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = "/plain", produces = MediaType.TEXT_PLAIN_VALUE)
     public String serviceOk() {
-return "OK";
+        return "OK";
     }
-
 
 
     @GetMapping
@@ -39,7 +38,7 @@ return "OK";
 
 
     @GetMapping("/{email}")
-    public Student getStudent(@PathVariable("email")  String email) {
+    public Student getStudent(@PathVariable("email") String email) {
         return studentService.findStudent(email);
     }
 
@@ -66,7 +65,8 @@ return "OK";
 
     @GetMapping("/data")
     public String getDataFromProvider() {
-        return studentService.getToken() + "\n" + studentService.getProduct();
+        return studentService.getToken() + "\n" + "\n" + studentService.getProduct();
+//        return studentService.getProduct().toString();
     }
 
 }
