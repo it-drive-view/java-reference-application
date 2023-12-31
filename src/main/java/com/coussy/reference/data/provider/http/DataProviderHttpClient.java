@@ -79,11 +79,6 @@ public class DataProviderHttpClient {
 
     }
 
-    // TO-STUDY
-    public void ToStudy() {
-
-        new Request.Builder();
-        JsonMapper.Builder builder = JsonMapper.builder();
     }
 
 }
