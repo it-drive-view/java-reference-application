@@ -1,10 +1,9 @@
 package com.coussy.reference.statistic;
 
-import com.coussy.reference.data.provider.http.DataProviderHttpClient;
-import okhttp3.OkHttpClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.json.JSONObject;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Map;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,10 +34,10 @@ public class StatisticEndToEndTest {
         mockWebServer.start(8090);
     }
 
-//    @BeforeEach
-//    public void after() throws IOException {
-//        mockWebServer.shutdown();
-//    }
+    @AfterEach
+    public void after() throws IOException {
+        mockWebServer.shutdown();
+    }
 
     @Test
     public void first() throws Exception {
@@ -47,7 +45,7 @@ public class StatisticEndToEndTest {
         // Given
         MockResponse mockResponse = new MockResponse()
                 .setResponseCode(200)
-                .setBody("\"787-7878-sdf\"");
+                .setBody("\"145-tyu-854-rty-965-rtg-875-trf\"");
         mockWebServer.enqueue(mockResponse);
 
         // When
@@ -55,18 +53,13 @@ public class StatisticEndToEndTest {
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
-                .toString();
+                .getContentAsString();
 
         // Then
-
-        // TODO faire la serialisation à partir d'ici
-        // StatisticDto statisticDto = new StatisticDto("token", new BigDecimal(2));
-
-        String expected = new JSONObject(Map.ofEntries(
-                Map.entry("label", "787-7878-sdf"),
-                Map.entry("value", new BigDecimal(2))
-        )).toString();
-        Assertions.assertEquals(expected, expected);
+        StatisticDto statisticDto = new StatisticDto("145-tyu-854-rty-965-rtg-875-trf", new BigDecimal(2));
+        ObjectMapper objectMapper1 = new ObjectMapper();
+        String expected2 = objectMapper1.writeValueAsString(statisticDto);
+        Assertions.assertEquals(expected2, result);
     }
 
 }
