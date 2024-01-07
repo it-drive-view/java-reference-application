@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
@@ -28,10 +31,20 @@ public class StatisticEndToEndTest {
 
     MockWebServer mockWebServer;
 
+    @Autowired
+    Environment environment;
+
+    private static final int MOCK_SERVER_PORT = 8090;
+
     @BeforeEach
     public void before() throws IOException {
         mockWebServer = new MockWebServer();
-        mockWebServer.start(8090);
+        mockWebServer.start(MOCK_SERVER_PORT);
+    }
+
+    @DynamicPropertySource
+    static void configureProperties(DynamicPropertyRegistry registry) {
+        registry.add("data.provider.url", () -> "http://localhost:%s/api/v1".formatted(MOCK_SERVER_PORT));
     }
 
     @AfterEach
@@ -41,6 +54,8 @@ public class StatisticEndToEndTest {
 
     @Test
     public void first() throws Exception {
+
+        environment.getProperty("data.provider.url");
 
         // Given
         MockResponse mockResponse = new MockResponse()
