@@ -63,10 +63,29 @@ public class StudentController {
         studentService.updateStudent(studentId, name, email);
     }
 
+
     @GetMapping("/data")
     public String getDataFromProvider() {
-        return studentService.getToken() + "\n" + "\n" + studentService.getProduct();
+
+//        return studentService.getProduct().toString();
+        return studentService.getTemperatures().toString();
+
+//        return studentService.getToken()
+//                + "\n"
+//                + "\n"
+//                + studentService.getProduct()
+//                + "\n"
+//                + "\n"
+//                + studentService.getTemperatures();
+
 //        return studentService.getProduct().toString();
     }
+
+
+
+
+
+
+
 
 }

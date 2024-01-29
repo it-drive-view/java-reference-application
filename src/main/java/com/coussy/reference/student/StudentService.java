@@ -84,4 +84,9 @@ public class StudentService {
         return dataProviderHttpClient.getProduct();
     }
 
+    public List<Object> getTemperatures() {
+        return dataProviderHttpClient.getTemperatures();
+    }
+
+
 }

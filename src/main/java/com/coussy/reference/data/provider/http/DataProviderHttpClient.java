@@ -11,6 +11,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class DataProviderHttpClient {
@@ -49,6 +51,35 @@ public class DataProviderHttpClient {
         ProductDto productDto = fromJson(response, ProductDto.class);
         response.close();
         return productDto;
+    }
+
+    public List<Object> getTemperatures() {
+
+        HttpUrl httpUrl = HttpUrl.parse("%s/temperatures".formatted(url));
+        Request request = new Request.Builder().get().url(httpUrl).build();
+        Response response = callClient(request);
+//        TemperatureDto temperatures = fromJson(response, new TypeReference<TemperatureDto>() {
+//        });
+
+//        ParameterizedTypeReference<List<String>> parameterizedTypeReference = new ParameterizedTypeReference<List<String>>() {};
+        m1(response);
+
+//        List<String> temperatures = fromJson(
+//                response,
+//                new TypeReference<List<String>>() {}
+//        );
+//
+//
+////        String s = fromJson(response, String.class);
+//
+//
+//        response.close();
+////        return Collections.singletonList(temperatures);
+        return Collections.singletonList(null);
+    }
+
+    private void m1(Response response) {
+        System.out.println("");
     }
 
     protected Response callClient(Request request) {
