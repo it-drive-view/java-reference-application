@@ -2,6 +2,9 @@ package com.coussy.reference.data.provider.http;
 
 import com.coussy.reference.common.configuration.DependencyError;
 import com.coussy.reference.data.provider.dto.ProductDto;
+import com.coussy.reference.data.provider.dto.TemperatureDto;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,9 +14,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class DataProviderHttpClient {
 
@@ -53,16 +54,23 @@ public class DataProviderHttpClient {
         return productDto;
     }
 
-    public List<Object> getTemperatures() {
+    public List<TemperatureDto> getTemperatures() {
 
         HttpUrl httpUrl = HttpUrl.parse("%s/temperatures".formatted(url));
         Request request = new Request.Builder().get().url(httpUrl).build();
         Response response = callClient(request);
+//        List<TemperatureDto> productDto = fromJson(response, new TypeReference<List<TemperatureDto>>() {});
+
+        // TODO-STEP jouer avec F8 et F7 à partir d'ici
+        List<TemperatureDto> productDto = fromJson2(response);
+
+        return productDto;
+
 //        TemperatureDto temperatures = fromJson(response, new TypeReference<TemperatureDto>() {
 //        });
 
 //        ParameterizedTypeReference<List<String>> parameterizedTypeReference = new ParameterizedTypeReference<List<String>>() {};
-        m1(response);
+//        m1(response);
 
 //        List<String> temperatures = fromJson(
 //                response,
@@ -75,7 +83,6 @@ public class DataProviderHttpClient {
 //
 //        response.close();
 ////        return Collections.singletonList(temperatures);
-        return Collections.singletonList(null);
     }
 
     private void m1(Response response) {
@@ -105,5 +112,42 @@ public class DataProviderHttpClient {
         }
 
     }
+
+    protected <T> T fromJson(Response response, TypeReference<T> valueTypeRef) {
+        try {
+            return OBJECT_MAPPER
+                    .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+                    .readValue(Objects.requireNonNull(response.body()).string(), valueTypeRef);
+        } catch (IOException | NullPointerException e) {
+//            throw new DependencyError(HTTP_CLIENT_IDENTIFIER, e);
+            throw new IllegalStateException("prob !!!!!!!!!!!!!!!!!!!!!!!");
+        }
+    }
+
+    protected List<TemperatureDto> fromJson2(Response response) {
+        try {
+
+            TemperatureDto[] temperatureDtos = OBJECT_MAPPER
+                    .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+                    .readValue(response.body().string(), TemperatureDto[].class);
+            List<TemperatureDto> temperatureDtos1 = Arrays.asList(temperatureDtos);
+            return temperatureDtos1;
+
+//            return OBJECT_MAPPER
+//                    .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+//                    .readValue(Objects.requireNonNull(response.body()).string(), valueTypeRef);
+        } catch (IOException | NullPointerException e) {
+//            throw new DependencyError(HTTP_CLIENT_IDENTIFIER, e);
+            throw new IllegalStateException("prob !!!!!!!!!!!!!!!!!!!!!!!");
+        }
+    }
+
+
+
+
+
+
+
+
 
 }

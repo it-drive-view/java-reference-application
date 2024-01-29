@@ -6,6 +6,8 @@ public class TemperatureDto {
 
     double temperature;
 
+    public TemperatureDto() {}
+
     public TemperatureDto(String town, double temperature) {
         this.town = town;
         this.temperature = temperature;

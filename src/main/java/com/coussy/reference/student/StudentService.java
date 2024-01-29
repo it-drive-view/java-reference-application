@@ -1,6 +1,7 @@
 package com.coussy.reference.student;
 
 import com.coussy.reference.data.provider.dto.ProductDto;
+import com.coussy.reference.data.provider.dto.TemperatureDto;
 import com.coussy.reference.data.provider.http.DataProviderHttpClient;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class StudentService {
         return dataProviderHttpClient.getProduct();
     }
 
-    public List<Object> getTemperatures() {
+    public List<TemperatureDto> getTemperatures() {
         return dataProviderHttpClient.getTemperatures();
     }
 
