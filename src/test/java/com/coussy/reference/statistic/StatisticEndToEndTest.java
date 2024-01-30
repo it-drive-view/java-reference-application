@@ -55,8 +55,6 @@ public class StatisticEndToEndTest {
     @Test
     public void first() throws Exception {
 
-        environment.getProperty("data.provider.url");
-
         // Given
         MockResponse mockResponse = new MockResponse()
                 .setResponseCode(200)

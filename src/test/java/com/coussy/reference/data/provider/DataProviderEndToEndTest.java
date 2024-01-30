@@ -67,9 +67,6 @@ public class DataProviderEndToEndTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String serializedTemp = objectMapper.writeValueAsString(temperatures);
 
-        // 1. quand j'appele cette url
-        // 2. alors je renvois cette réponse
-
         MockResponse mockResponse = new MockResponse()
                 .setResponseCode(200)
                 .setBody(serializedTemp);
