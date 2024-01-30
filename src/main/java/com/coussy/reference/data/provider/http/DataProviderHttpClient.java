@@ -59,30 +59,13 @@ public class DataProviderHttpClient {
         HttpUrl httpUrl = HttpUrl.parse("%s/temperatures".formatted(url));
         Request request = new Request.Builder().get().url(httpUrl).build();
         Response response = callClient(request);
-//        List<TemperatureDto> productDto = fromJson(response, new TypeReference<List<TemperatureDto>>() {});
+
+        List<TemperatureDto> productDto = fromJson(response, new TypeReference<List<TemperatureDto>>() {});
 
         // TODO-STEP jouer avec F8 et F7 à partir d'ici
-        List<TemperatureDto> productDto = fromJson2(response);
+//        List<TemperatureDto> productDto = fromJson2(response);
 
         return productDto;
-
-//        TemperatureDto temperatures = fromJson(response, new TypeReference<TemperatureDto>() {
-//        });
-
-//        ParameterizedTypeReference<List<String>> parameterizedTypeReference = new ParameterizedTypeReference<List<String>>() {};
-//        m1(response);
-
-//        List<String> temperatures = fromJson(
-//                response,
-//                new TypeReference<List<String>>() {}
-//        );
-//
-//
-////        String s = fromJson(response, String.class);
-//
-//
-//        response.close();
-////        return Collections.singletonList(temperatures);
     }
 
     private void m1(Response response) {

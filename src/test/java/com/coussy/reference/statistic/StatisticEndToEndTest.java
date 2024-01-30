@@ -34,7 +34,7 @@ public class StatisticEndToEndTest {
     @Autowired
     Environment environment;
 
-    private static final int MOCK_SERVER_PORT = 8090;
+    private static final int MOCK_SERVER_PORT = 8091;
 
     @BeforeEach
     public void before() throws IOException {
