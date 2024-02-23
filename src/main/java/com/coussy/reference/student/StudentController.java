@@ -14,6 +14,17 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    @PostMapping
+    public String registerNewStudent(@RequestBody Student student) {
+        studentService.addNewStudent(student);
+        return "student registered";
+    }
+
+    @GetMapping("/{email}")
+    public Student getStudent(@PathVariable("email") String email) {
+        return studentService.findStudent(email);
+    }
+
     //  useless, but i keep it, just for the comprehension
     @Autowired
     public StudentController(StudentService studentService) {
@@ -34,19 +45,6 @@ public class StudentController {
     @GetMapping("/available")
     public ResponseEntity<String> available() {
         return new ResponseEntity<>("\"service available\"", HttpStatus.OK);
-    }
-
-
-    @GetMapping("/{email}")
-    public Student getStudent(@PathVariable("email") String email) {
-        return studentService.findStudent(email);
-    }
-
-
-    @PostMapping
-    public String registerNewStudent(@RequestBody Student student) {
-        studentService.addNewStudent(student);
-        return "student registered";
     }
 
     @DeleteMapping(path = "/{studentId}")
