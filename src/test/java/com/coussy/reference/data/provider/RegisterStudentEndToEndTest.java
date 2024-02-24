@@ -13,6 +13,7 @@ import org.springframework.boot.testcontainers.service.connection.ServiceConnect
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.testcontainers.containers.BindMode;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -46,14 +47,14 @@ public class RegisterStudentEndToEndTest {
             .withDatabaseName("db-test")
             .withUsername("user-test")
             .withPassword("password-test");
-
-    //            .withClasspathResourceMapping("PostgresInit.sql", "/docker-entrypoint-initdb.d/script.sql", BindMode.READ_ONLY);
+//            .withClasspathResourceMapping("PostgresInit.sql" , "/docker-entrypoint-initdb.d/script.sql", BindMode.READ_ONLY);
 
     @Autowired
     MockMvc mockMvc;
 
     @Test
     public void m() throws Exception {
+//        Thread.sleep(5000 * 1000);
 
         String email = "johnny456@gmail.com";
 
@@ -84,6 +85,9 @@ public class RegisterStudentEndToEndTest {
         Assertions.assertNotNull(student.getId());
         Assertions.assertEquals(student.getEmail() , "johnny456@gmail.com");
         Assertions.assertEquals(student.getName() , "johnny");
+
+        Thread.sleep(5000 * 1000);
+
     }
 
     private String objectToJson(Object object) {
