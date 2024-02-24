@@ -46,8 +46,8 @@ public class RegisterStudentEndToEndTest {
             // 2- l'annotation @ServiceConnection recopie toutes ces propriétés vers les propriétés spring boot (par exemple)
             .withDatabaseName("db-test")
             .withUsername("user-test")
-            .withPassword("password-test");
-//            .withClasspathResourceMapping("PostgresInit.sql" , "/docker-entrypoint-initdb.d/script.sql", BindMode.READ_ONLY);
+            .withPassword("password-test")
+            .withClasspathResourceMapping("PostgresInit.sql" , "/docker-entrypoint-initdb.d/script.sql", BindMode.READ_ONLY);
 
     @Autowired
     MockMvc mockMvc;
@@ -86,7 +86,7 @@ public class RegisterStudentEndToEndTest {
         Assertions.assertEquals(student.getEmail() , "johnny456@gmail.com");
         Assertions.assertEquals(student.getName() , "johnny");
 
-        Thread.sleep(5000 * 1000);
+//        Thread.sleep(5000 * 1000);
 
     }
 
