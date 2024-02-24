@@ -29,7 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 // RAPPEL : pour voir les logs issus du container docker, faire :
 // mvn clean -Dtest=RegisterStudentEndToEndTest test | grep org.testcontainers.containers.output.WaitingConsumer
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+        properties = "spring.jpa.hibernate.ddl-auto= none"
+)
 @AutoConfigureMockMvc
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
