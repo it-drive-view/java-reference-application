@@ -1,7 +1,7 @@
 package com.coussy.reference.findwork.data.fetch.http;
 
 import com.coussy.reference.common.configuration.DependencyError;
-import com.coussy.reference.findwork.data.fetch.dto.Dto;
+import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -31,7 +31,7 @@ public class FindworkHttpClient {
         this.token = token;
     }
 
-    public Dto getJobs() {
+    public ParentDto getJobs() {
 
         Request request = new Request.Builder()
                 .get()
@@ -42,10 +42,10 @@ public class FindworkHttpClient {
         return fromJson2(response);
     }
 
-    protected Dto fromJson2(Response response) {
+    protected ParentDto fromJson2(Response response) {
         try {
-            Dto dto = OBJECT_MAPPER
-                    .readValue(response.body().string(), Dto.class );
+            ParentDto dto = OBJECT_MAPPER
+                    .readValue(response.body().string(), ParentDto.class );
             return dto;
 
 //            return OBJECT_MAPPER
