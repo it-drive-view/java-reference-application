@@ -6,20 +6,18 @@ import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
 import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabase;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class FetchJobAnnouncesService {
+public class FindWorkPlatformService2 implements FetchJobs {
 
     private final FindworkHttpClient findworkHttpClient;
     private final JobPositionDatabaseRepository jobPositionDatabaseRepository;
     private final SkillDatabaseRepository skillDatabaseRepository;
     private final DtoMapper dtoMapper;
 
-    public FetchJobAnnouncesService(FindworkHttpClient findworkHttpClient, JobPositionDatabaseRepository jobPositionDatabaseRepository, SkillDatabaseRepository skillDatabaseRepository, DtoMapper dtoMapper) {
+    public FindWorkPlatformService2(FindworkHttpClient findworkHttpClient, JobPositionDatabaseRepository jobPositionDatabaseRepository, SkillDatabaseRepository skillDatabaseRepository, DtoMapper dtoMapper) {
         this.findworkHttpClient = findworkHttpClient;
         this.jobPositionDatabaseRepository = jobPositionDatabaseRepository;
         this.skillDatabaseRepository = skillDatabaseRepository;

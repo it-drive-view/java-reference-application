@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class FetchJobAnnouncesController {
 
-    private final FetchJobAnnouncesService fetchJobAnnouncesService;
+    private final FetchJobs fetchJobs;
 
-    public FetchJobAnnouncesController(FetchJobAnnouncesService fetchJobAnnouncesService) {
-        this.fetchJobAnnouncesService = fetchJobAnnouncesService;
+    public FetchJobAnnouncesController(FetchJobs findWorkPlatformService) {
+        this.fetchJobs = findWorkPlatformService;
     }
 
     @GetMapping
     public String m() {
-        fetchJobAnnouncesService.fetch();
+        fetchJobs.fetch();
         return "called";
     }
 
