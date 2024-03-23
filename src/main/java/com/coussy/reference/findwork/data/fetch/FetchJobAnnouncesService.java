@@ -3,25 +3,26 @@ package com.coussy.reference.findwork.data.fetch;
 import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
 import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
 import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
-import com.coussy.reference.findwork.data.fetch.http.JobsFindWorkRepository;
-import com.coussy.reference.findwork.data.fetch.http.JobsFindWorkSkillDatabase;
-import com.coussy.reference.findwork.data.fetch.http.JobsFindWorkSkillRepository;
+import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
+import com.coussy.reference.findwork.data.fetch.http.SkillDatabase;
+import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FetchJobAnnouncesService {
 
     private final FindworkHttpClient findworkHttpClient;
-    private final JobsFindWorkRepository jobsFindWorkRepository;
-    private final JobsFindWorkSkillRepository jobsFindWorkSkillRepository;
+    private final JobPositionDatabaseRepository jobPositionDatabaseRepository;
+    private final SkillDatabaseRepository skillDatabaseRepository;
     private final DtoMapper dtoMapper;
 
-    public FetchJobAnnouncesService(FindworkHttpClient findworkHttpClient, JobsFindWorkRepository jobsFindWorkRepository, JobsFindWorkSkillRepository jobsFindWorkSkillRepository, DtoMapper dtoMapper) {
+    public FetchJobAnnouncesService(FindworkHttpClient findworkHttpClient, JobPositionDatabaseRepository jobPositionDatabaseRepository, SkillDatabaseRepository skillDatabaseRepository, DtoMapper dtoMapper) {
         this.findworkHttpClient = findworkHttpClient;
-        this.jobsFindWorkRepository = jobsFindWorkRepository;
-        this.jobsFindWorkSkillRepository = jobsFindWorkSkillRepository;
+        this.jobPositionDatabaseRepository = jobPositionDatabaseRepository;
+        this.skillDatabaseRepository = skillDatabaseRepository;
         this.dtoMapper = dtoMapper;
     }
 
@@ -29,12 +30,23 @@ public class FetchJobAnnouncesService {
         ParentDto jobs = findworkHttpClient.getJobs();
         System.out.println(jobs);
 
-        List<ResultDto> results = jobs.results();
-        for (ResultDto resultDto : results) {
-            JobsFindWorkDatabase jobsFindWorkDatabase = dtoMapper.toJobsFindWorks(resultDto);
-            List<JobsFindWorkSkillDatabase> jobsFindWorkSkillsDatabase = jobsFindWorkDatabase.getJobsFindWorkSkillsDatabase();
-            jobsFindWorkSkillRepository.saveAll(jobsFindWorkSkillsDatabase);
-            jobsFindWorkRepository.save(jobsFindWorkDatabase);
+        for (ResultDto resultDto : jobs.results()) {
+            JobPositionDatabase jobPositionDatabase = dtoMapper.toJobsFindWorks(resultDto);
+            // to get UUID
+            jobPositionDatabaseRepository.save(jobPositionDatabase);
+
+            List<SkillDatabase> skills = new ArrayList<>();
+            SkillDatabase skillDatabase;
+            for (String keyword : resultDto.keywords()) {
+                skillDatabase = new SkillDatabase();
+                skillDatabase.setSkill(keyword);
+                skillDatabase.setJobPositionDatabase(jobPositionDatabase);
+                skills.add(skillDatabase);
+            }
+
+            List<SkillDatabase> skillsWithUuid = skillDatabaseRepository.saveAll(skills);
+            jobPositionDatabase.setJobsFindWorkSkillsDatabase(skillsWithUuid);
+            jobPositionDatabaseRepository.save(jobPositionDatabase);
         }
     }
 
