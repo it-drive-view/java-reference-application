@@ -1,5 +1,6 @@
 package com.coussy.reference.findwork.data.fetch;
 
+import com.coussy.reference.findwork.data.fetch.http.JobsFindWorkSkillDatabase;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -10,11 +11,25 @@ import java.util.UUID;
 @Table(name= "jobs_find_work")
 public class JobsFindWorkDatabase {
 
+    public JobsFindWorkDatabase() {}
+
     @GeneratedValue
     @Id
     UUID uuid;
 
     String id;
+
+//    @OneToMany(mappedBy = "jobsFindWorkDatabase")
+    @OneToMany
+    private List<JobsFindWorkSkillDatabase> JobsFindWorkSkillsDatabase;
+
+    public List<JobsFindWorkSkillDatabase> getJobsFindWorkSkillsDatabase() {
+        return JobsFindWorkSkillsDatabase;
+    }
+
+    public void setJobsFindWorkSkillsDatabase(List<JobsFindWorkSkillDatabase> jobsFindWorkSkillsDatabase) {
+        JobsFindWorkSkillsDatabase = jobsFindWorkSkillsDatabase;
+    }
 
     @Transient
     List<String> keywords;
