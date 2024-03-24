@@ -14,7 +14,8 @@ public class DtoMapper {
         JobPositionDatabase jfw = new JobPositionDatabase();
         jfw.setPositionUuid(UUID.randomUUID());
         jfw.setId(dto.id());
-            jfw.setDatePosted(dto.date_posted());
+        jfw.setSource("FindWork");
+        jfw.setDatePosted(dto.date_posted());
         return jfw;
     }
 

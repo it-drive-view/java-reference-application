@@ -20,6 +20,8 @@ public class JobPositionDatabase {
     @Column(name= "position_uuid")
     UUID positionUuid;
 
+    String source;
+
     String id;
 
     public String getId() {
@@ -68,5 +70,13 @@ public class JobPositionDatabase {
 
     public void setDatePosted(LocalDateTime datePosted) {
         this.datePosted = datePosted;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

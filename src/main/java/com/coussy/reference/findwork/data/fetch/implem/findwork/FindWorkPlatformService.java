@@ -1,29 +1,34 @@
-package com.coussy.reference.findwork.data.fetch;
+package com.coussy.reference.findwork.data.fetch.implem.findwork;
 
+import com.coussy.reference.findwork.data.fetch.DtoMapper;
+import com.coussy.reference.findwork.data.fetch.FetchJobs;
+import com.coussy.reference.findwork.data.fetch.JobPositionDatabase;
 import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
 import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
 import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
 import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabase;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FindWorkPlatformService2 implements FetchJobs {
+public class FindWorkPlatformService implements FetchJobs {
 
     private final FindworkHttpClient findworkHttpClient;
     private final JobPositionDatabaseRepository jobPositionDatabaseRepository;
     private final SkillDatabaseRepository skillDatabaseRepository;
     private final DtoMapper dtoMapper;
 
-    public FindWorkPlatformService2(FindworkHttpClient findworkHttpClient, JobPositionDatabaseRepository jobPositionDatabaseRepository, SkillDatabaseRepository skillDatabaseRepository, DtoMapper dtoMapper) {
+    public FindWorkPlatformService(FindworkHttpClient findworkHttpClient, JobPositionDatabaseRepository jobPositionDatabaseRepository, SkillDatabaseRepository skillDatabaseRepository, DtoMapper dtoMapper) {
         this.findworkHttpClient = findworkHttpClient;
         this.jobPositionDatabaseRepository = jobPositionDatabaseRepository;
         this.skillDatabaseRepository = skillDatabaseRepository;
         this.dtoMapper = dtoMapper;
     }
 
+    @Transactional
     public void fetch() {
         ParentDto jobs = findworkHttpClient.getJobs();
         System.out.println(jobs);

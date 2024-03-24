@@ -1,7 +1,7 @@
 package com.coussy.reference.findwork.data.fetch.configuration;
 
 import com.coussy.reference.findwork.data.fetch.DtoMapper;
-import com.coussy.reference.findwork.data.fetch.FindWorkPlatformService;
+import com.coussy.reference.findwork.data.fetch.implem.findwork.FindWorkPlatformService;
 import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
 import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
