@@ -1,6 +1,5 @@
-package com.coussy.reference.findwork.data.fetch.http;
+package com.coussy.reference.findwork.data.fetch;
 
-import com.coussy.reference.findwork.data.fetch.SkillDatabase;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

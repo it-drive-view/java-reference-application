@@ -11,6 +11,11 @@ public class SkillDatabase {
 
     public SkillDatabase() {}
 
+    public SkillDatabase(String skill, JobPositionDatabase jobPositionDatabase) {
+        this.skill = skill;
+        this.jobPositionDatabase = jobPositionDatabase;
+    }
+
     @Id
     @GeneratedValue
     private UUID skill_uuid;

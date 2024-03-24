@@ -1,10 +1,9 @@
 package com.coussy.reference.findwork.data.fetch.configuration;
 
-import com.coussy.reference.findwork.data.fetch.DtoMapper;
-import com.coussy.reference.findwork.data.fetch.implem.findwork.FindWorkPlatformService;
+import com.coussy.reference.findwork.data.fetch.implem.FindWorkApiService;
 import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
-import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
+import com.coussy.reference.findwork.data.fetch.JobPositionDatabaseRepository;
+import com.coussy.reference.findwork.data.fetch.SkillDatabaseRepository;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,23 +18,21 @@ public class FetchJobHttpConfiguration {
     }
 
     @Bean
-    public FindWorkPlatformService findWorkPlatformService(
+    public FindWorkApiService findWorkPlatformService(
             FindworkHttpClient findworkHttpClient,
             JobPositionDatabaseRepository jobPositionDatabaseRepository,
-            SkillDatabaseRepository skillDatabaseRepository,
-            DtoMapper dtoMapper
+            SkillDatabaseRepository skillDatabaseRepository
     ) {
-        return new FindWorkPlatformService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository, dtoMapper);
+        return new FindWorkApiService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository);
     }
 
     @Bean
-    public FindWorkPlatformService findWorkPlatformService2(
+    public FindWorkApiService findWorkPlatformService2(
             FindworkHttpClient findworkHttpClient,
             JobPositionDatabaseRepository jobPositionDatabaseRepository,
-            SkillDatabaseRepository skillDatabaseRepository,
-            DtoMapper dtoMapper
+            SkillDatabaseRepository skillDatabaseRepository
     ) {
-        return new FindWorkPlatformService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository, dtoMapper);
+        return new FindWorkApiService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository);
     }
 
 }

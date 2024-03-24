@@ -31,12 +31,19 @@ public class FindworkHttpClient {
         this.token = token;
     }
 
-    public ParentDto getJobs() {
+    public ParentDto getJobs(String url) {
+
+        HttpUrl httpUrl;
+        if (url == null) {
+            httpUrl = HttpUrl.parse("%s/jobs".formatted(baseUrl));
+        } else {
+            httpUrl = HttpUrl.parse(url);
+        }
 
         Request request = new Request.Builder()
                 .get()
-                .url(HttpUrl.parse( "%s/jobs".formatted(baseUrl)))
-                .addHeader("Authorization" , "Token 2a63f298d63f2cda7b33df3b6a2741aeca96d9aa")
+                .url(httpUrl)
+                .addHeader("Authorization", "Token 2a63f298d63f2cda7b33df3b6a2741aeca96d9aa")
                 .build();
         Response response = callClient(request);
         return fromJson2(response);
@@ -45,7 +52,7 @@ public class FindworkHttpClient {
     protected ParentDto fromJson2(Response response) {
         try {
             ParentDto dto = OBJECT_MAPPER
-                    .readValue(response.body().string(), ParentDto.class );
+                    .readValue(response.body().string(), ParentDto.class);
             return dto;
 
 //            return OBJECT_MAPPER
@@ -63,15 +70,15 @@ public class FindworkHttpClient {
 
     protected Response callClient(Request request) {
 
-    try {
-        Response response = okHttpClient.newCall(request).execute();
-        if (response.isSuccessful()) {
-            return response;
+        try {
+            Response response = okHttpClient.newCall(request).execute();
+            if (response.isSuccessful()) {
+                return response;
+            }
+            throw new DependencyError("DEPENDENCY_ERROR");
+        } catch (IOException e) {
+            throw new DependencyError(e.getMessage());
         }
-        throw new DependencyError("DEPENDENCY_ERROR");
-    } catch (IOException e) {
-        throw new DependencyError(e.getMessage());
-    }
 
-}
+    }
 }

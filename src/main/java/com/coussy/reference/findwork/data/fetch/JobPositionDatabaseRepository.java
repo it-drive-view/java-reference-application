@@ -1,4 +1,4 @@
-package com.coussy.reference.findwork.data.fetch.http;
+package com.coussy.reference.findwork.data.fetch;
 
 import com.coussy.reference.findwork.data.fetch.JobPositionDatabase;
 import org.springframework.data.jpa.repository.JpaRepository;

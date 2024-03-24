@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import com.coussy.reference.findwork.data.fetch.SkillDatabase     ;
+
 @Entity
 @Table(name= "job_position")
 // étudier l'annotation
@@ -14,6 +16,12 @@ public class JobPositionDatabase {
 
     public JobPositionDatabase() {}
 
+    public JobPositionDatabase(String source, String apiId, LocalDateTime datePosted) {
+        this.source = source;
+        this.apiId = apiId;
+        this.datePosted = datePosted;
+    }
+
     @GeneratedValue
     @Id
     @Column(name= "position_uuid")
@@ -21,14 +29,15 @@ public class JobPositionDatabase {
 
     String source;
 
-    String id;
+    @Column(name= "api_id")
+    String apiId;
 
-    public String getId() {
-        return id;
+    public String getApiId() {
+        return apiId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setApiId(String apiId) {
+        this.apiId = apiId;
     }
 
     @OneToMany(mappedBy = "jobPositionDatabase")
@@ -42,9 +51,6 @@ public class JobPositionDatabase {
         JobsFindWorkSkillsDatabase = jobsFindWorkSkillsDatabase;
     }
 
-    @Transient
-    List<String> keywords;
-
     LocalDateTime datePosted;
 
     public UUID getPositionUuid() {
@@ -53,14 +59,6 @@ public class JobPositionDatabase {
 
     public void setPositionUuid(UUID positionUuid) {
         this.positionUuid = positionUuid;
-    }
-
-    public List<String> getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
     }
 
     public LocalDateTime getDatePosted() {
