@@ -1,6 +1,5 @@
 package com.coussy.reference.findwork.data.fetch;
 
-import com.coussy.reference.findwork.data.fetch.http.SkillDatabase;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

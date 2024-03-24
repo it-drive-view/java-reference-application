@@ -1,9 +1,7 @@
-package com.coussy.reference.findwork.data.fetch.http;
+package com.coussy.reference.findwork.data.fetch;
 
 
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabase;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 
 import java.util.UUID;
 
@@ -15,7 +13,7 @@ public class SkillDatabase {
 
     @Id
     @GeneratedValue
-    private UUID uuid;
+    private UUID skill_uuid;
 
     private String skill;
 

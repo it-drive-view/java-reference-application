@@ -1,4 +1,4 @@
-package com.coussy.reference.findwork.data.fetch.implem.findwork;
+package com.coussy.reference.findwork.data.fetch.implem.findwork2;
 
 import com.coussy.reference.findwork.data.fetch.DtoMapper;
 import com.coussy.reference.findwork.data.fetch.FetchJobs;
@@ -7,7 +7,7 @@ import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
 import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
 import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
 import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.http.SkillDatabase;
+import com.coussy.reference.findwork.data.fetch.SkillDatabase;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
 
 import java.util.ArrayList;

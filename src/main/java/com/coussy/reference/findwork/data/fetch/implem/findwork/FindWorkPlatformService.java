@@ -7,7 +7,7 @@ import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
 import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
 import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
 import com.coussy.reference.findwork.data.fetch.http.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.http.SkillDatabase;
+import com.coussy.reference.findwork.data.fetch.SkillDatabase;
 import com.coussy.reference.findwork.data.fetch.http.SkillDatabaseRepository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,13 +28,14 @@ public class FindWorkPlatformService implements FetchJobs {
         this.dtoMapper = dtoMapper;
     }
 
-    @Transactional
+//    @Transactional
     public void fetch() {
         ParentDto jobs = findworkHttpClient.getJobs();
         System.out.println(jobs);
 
         for (ResultDto resultDto : jobs.results()) {
             JobPositionDatabase jobPositionDatabase = dtoMapper.toJobsFindWorks(resultDto);
+
             // to get UUID
             jobPositionDatabaseRepository.save(jobPositionDatabase);
 
@@ -48,8 +49,6 @@ public class FindWorkPlatformService implements FetchJobs {
             }
 
             List<SkillDatabase> skillsWithUuid = skillDatabaseRepository.saveAll(skills);
-            jobPositionDatabase.setJobsFindWorkSkillsDatabase(skillsWithUuid);
-            jobPositionDatabaseRepository.save(jobPositionDatabase);
         }
     }
 
