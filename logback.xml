@@ -12,6 +12,9 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
+    <logger name="org.hibernate.SQL" level="info"/>
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="info"/>
+
     <logger name="org.testcontainers" level="DEBUG"/>
     <!-- The following logger can be used for containers logs since 1.18.0 -->
     <logger name="tc" level="DEBUG"/>

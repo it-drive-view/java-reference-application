@@ -1,23 +1,21 @@
-package com.coussy.reference.findwork.data.fetch.implem;
+package com.coussy.reference.job.platform.fetch.implementation;
 
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.SkillDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
-import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
-import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
+import com.coussy.reference.job.platform.fetch.JobPositionDatabaseRepository;
+import com.coussy.reference.job.platform.fetch.SkillDatabaseRepository;
+import com.coussy.reference.job.platform.fetch.dto.ParentDto;
+import com.coussy.reference.job.platform.fetch.dto.ResultDto;
+import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
 
 @ExtendWith(MockitoExtension.class)
 class FindWorkApiServiceTest {

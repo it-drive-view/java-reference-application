@@ -1,13 +1,13 @@
-package com.coussy.reference.findwork.data.fetch.implem;
+package com.coussy.reference.job.platform.fetch.implementation;
 
-import com.coussy.reference.findwork.data.fetch.FetchJobs;
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabase;
-import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
-import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
-import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.SkillDatabase;
-import com.coussy.reference.findwork.data.fetch.SkillDatabaseRepository;
+import com.coussy.reference.job.platform.fetch.FetchJobs;
+import com.coussy.reference.job.platform.fetch.JobPositionDatabase;
+import com.coussy.reference.job.platform.fetch.dto.ParentDto;
+import com.coussy.reference.job.platform.fetch.dto.ResultDto;
+import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
+import com.coussy.reference.job.platform.fetch.JobPositionDatabaseRepository;
+import com.coussy.reference.job.platform.fetch.SkillDatabase;
+import com.coussy.reference.job.platform.fetch.SkillDatabaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;

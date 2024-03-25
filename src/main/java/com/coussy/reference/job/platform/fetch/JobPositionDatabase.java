@@ -1,4 +1,4 @@
-package com.coussy.reference.findwork.data.fetch;
+package com.coussy.reference.job.platform.fetch;
 
 import jakarta.persistence.*;
 
@@ -6,38 +6,36 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.coussy.reference.findwork.data.fetch.SkillDatabase     ;
-
 @Entity
-@Table(name= "job_position")
-// étudier l'annotation
-// @DynamicUpdate
+@Table(name = "job_position", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"source", "job_platform_id", "posted_at"})})
 public class JobPositionDatabase {
 
-    public JobPositionDatabase() {}
+    public JobPositionDatabase() {
+    }
 
-    public JobPositionDatabase(String source, String apiId, LocalDateTime datePosted) {
+    public JobPositionDatabase(String source, String jobPlatformId, LocalDateTime postedAt) {
         this.source = source;
-        this.apiId = apiId;
-        this.datePosted = datePosted;
+        this.jobPlatformId = jobPlatformId;
+        this.postedAt = postedAt;
     }
 
     @GeneratedValue
     @Id
-    @Column(name= "position_uuid")
+    @Column(name = "position_uuid")
     UUID positionUuid;
 
     String source;
 
-    @Column(name= "api_id")
-    String apiId;
+    @Column(name = "job_platform_id")
+    String jobPlatformId;
 
-    public String getApiId() {
-        return apiId;
+    public String getJobPlatformId() {
+        return jobPlatformId;
     }
 
-    public void setApiId(String apiId) {
-        this.apiId = apiId;
+    public void setJobPlatformId(String jobPlatformId) {
+        this.jobPlatformId = jobPlatformId;
     }
 
     @OneToMany(mappedBy = "jobPositionDatabase")
@@ -51,7 +49,8 @@ public class JobPositionDatabase {
         JobsFindWorkSkillsDatabase = jobsFindWorkSkillsDatabase;
     }
 
-    LocalDateTime datePosted;
+    @Column(name = "posted_at")
+    LocalDateTime postedAt;
 
     public UUID getPositionUuid() {
         return positionUuid;
@@ -61,12 +60,12 @@ public class JobPositionDatabase {
         this.positionUuid = positionUuid;
     }
 
-    public LocalDateTime getDatePosted() {
-        return datePosted;
+    public LocalDateTime getPostedAt() {
+        return postedAt;
     }
 
-    public void setDatePosted(LocalDateTime datePosted) {
-        this.datePosted = datePosted;
+    public void setPostedAt(LocalDateTime postedAt) {
+        this.postedAt = postedAt;
     }
 
     public String getSource() {

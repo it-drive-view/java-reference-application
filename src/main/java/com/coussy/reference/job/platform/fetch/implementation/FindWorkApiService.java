@@ -1,15 +1,9 @@
-package com.coussy.reference.findwork.data.fetch.implem;
+package com.coussy.reference.job.platform.fetch.implementation;
 
-import com.coussy.reference.findwork.data.fetch.FetchJobs;
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabase;
-import com.coussy.reference.findwork.data.fetch.SkillDatabase;
-import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
-import com.coussy.reference.findwork.data.fetch.dto.ResultDto;
-import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.SkillDatabaseRepository;
-
-
+import com.coussy.reference.job.platform.fetch.*;
+import com.coussy.reference.job.platform.fetch.dto.ParentDto;
+import com.coussy.reference.job.platform.fetch.dto.ResultDto;
+import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +11,7 @@ import java.util.List;
 
 public class FindWorkApiService implements FetchJobs {
 
-    private final String SOURCE_NAME = "findwork";
+    private final String JOB_PLATFORM_SOURCE = "findwork.dev";
 
     private final FindworkHttpClient findworkHttpClient;
     private final JobPositionDatabaseRepository jobPositionDatabaseRepository;
@@ -29,8 +23,6 @@ public class FindWorkApiService implements FetchJobs {
         this.skillDatabaseRepository = skillDatabaseRepository;
     }
 
-    // comment faire pour faire du transactionnal par bloc de code
-    @Transactional
     public void fetch() {
 
         String nextUrl = null;
@@ -45,14 +37,7 @@ public class FindWorkApiService implements FetchJobs {
             System.out.println(jobs);
 
             for (ResultDto resultDto : jobs.results()) {
-                JobPositionDatabase jobPositionDatabase = new JobPositionDatabase
-                        ("findwork", resultDto.id(), resultDto.date_posted());
-                jobPositionDatabaseRepository.save(jobPositionDatabase);
-
-                List<SkillDatabase> skills = resultDto.keywords().stream()
-                        .map(skill -> new SkillDatabase(skill, jobPositionDatabase))
-                        .toList();
-                skillDatabaseRepository.saveAll(skills);
+                extracted(resultDto);
             }
 
             nextUrl = jobs.next();
@@ -61,8 +46,27 @@ public class FindWorkApiService implements FetchJobs {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        } while (StringUtils.isNotEmpty(nextUrl));
+        } while (StringUtils.isEmpty(nextUrl));
 
+    }
+
+    @Transactional
+    private void extracted(ResultDto resultDto) {
+
+        JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformIdAndPostedAt(JOB_PLATFORM_SOURCE, resultDto.id(), resultDto.date_posted());
+        if (jobPosition != null) {
+            System.out.println("==> already in database");
+            return;
+        }
+
+        JobPositionDatabase jobPositionDatabase = new JobPositionDatabase
+                (JOB_PLATFORM_SOURCE, resultDto.id(), resultDto.date_posted() );
+        jobPositionDatabaseRepository.save(jobPositionDatabase);
+
+        List<SkillDatabase> skills = resultDto.keywords().stream()
+                .map(skill -> new SkillDatabase(skill, jobPositionDatabase))
+                .toList();
+        skillDatabaseRepository.saveAll(skills);
     }
 
 }

@@ -1,13 +1,19 @@
-package com.coussy.reference.findwork.data.fetch.configuration;
+package com.coussy.reference.job.platform.fetch.configuration;
 
-import com.coussy.reference.findwork.data.fetch.implem.FindWorkApiService;
-import com.coussy.reference.findwork.data.fetch.http.FindworkHttpClient;
-import com.coussy.reference.findwork.data.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.findwork.data.fetch.SkillDatabaseRepository;
+import com.coussy.reference.job.platform.fetch.FetchJobOrchestrator;
+import com.coussy.reference.job.platform.fetch.implementation.FindWorkApiService;
+import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
+import com.coussy.reference.job.platform.fetch.JobPositionDatabaseRepository;
+import com.coussy.reference.job.platform.fetch.SkillDatabaseRepository;
+import com.coussy.reference.student.Student;
 import okhttp3.OkHttpClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 @Configuration
 public class FetchJobHttpConfiguration {
@@ -18,7 +24,7 @@ public class FetchJobHttpConfiguration {
     }
 
     @Bean
-    public FindWorkApiService findWorkPlatformService(
+    public FindWorkApiService findWork(
             FindworkHttpClient findworkHttpClient,
             JobPositionDatabaseRepository jobPositionDatabaseRepository,
             SkillDatabaseRepository skillDatabaseRepository
@@ -33,6 +39,12 @@ public class FetchJobHttpConfiguration {
             SkillDatabaseRepository skillDatabaseRepository
     ) {
         return new FindWorkApiService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository);
+    }
+
+    // c'est étrange quie ça ne plante pas !  ce n'est pas un bean !
+    @Bean
+    public FetchJobOrchestrator fetchJobOrchestrator(@Value("#{'${job.platforms}'.split(',')}") List<String> jobPlatforms, ApplicationContext applicationContext) {
+        return new FetchJobOrchestrator(jobPlatforms, applicationContext);
     }
 
 }

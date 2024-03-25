@@ -1,4 +1,4 @@
-package com.coussy.reference.findwork.data.fetch.dto;
+package com.coussy.reference.job.platform.fetch.dto;
 
 import java.util.List;
 

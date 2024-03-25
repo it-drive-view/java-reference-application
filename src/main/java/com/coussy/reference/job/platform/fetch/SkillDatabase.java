@@ -1,4 +1,4 @@
-package com.coussy.reference.findwork.data.fetch;
+package com.coussy.reference.job.platform.fetch;
 
 
 import jakarta.persistence.*;

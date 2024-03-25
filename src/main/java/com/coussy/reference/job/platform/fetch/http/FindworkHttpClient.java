@@ -1,7 +1,7 @@
-package com.coussy.reference.findwork.data.fetch.http;
+package com.coussy.reference.job.platform.fetch.http;
 
 import com.coussy.reference.common.configuration.DependencyError;
-import com.coussy.reference.findwork.data.fetch.dto.ParentDto;
+import com.coussy.reference.job.platform.fetch.dto.ParentDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

@@ -1,4 +1,4 @@
-package com.coussy.reference.findwork.data.fetch;
+package com.coussy.reference.job.platform.fetch;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class FetchJobAnnouncesController {
 
-    private final FetchJobs fetchJobs;
+    private final FetchJobOrchestrator fetchJobOrchestrator;
 
-    public FetchJobAnnouncesController(FetchJobs findWorkPlatformService) {
-        this.fetchJobs = findWorkPlatformService;
+    public FetchJobAnnouncesController(FetchJobOrchestrator fetchJobOrchestrator) {
+        this.fetchJobOrchestrator = fetchJobOrchestrator;
     }
 
     @GetMapping
     public String m() {
-        fetchJobs.fetch();
+        fetchJobOrchestrator.fetch();
         return "called";
     }
 
