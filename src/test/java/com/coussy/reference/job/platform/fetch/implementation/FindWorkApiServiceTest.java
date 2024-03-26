@@ -43,11 +43,9 @@ class FindWorkApiServiceTest {
 
         List<ResultDto> resultDtos = new ArrayList<>();
         ParentDto value = new ParentDto(4, "next", resultDtos);
-        given(findworkHttpClient.getJobs()).willReturn(value);
+        given(findworkHttpClient.getJobs("")).willReturn(value);
 
-
-
-        ParentDto jobs = findworkHttpClient.getJobs();
+        ParentDto jobs = findworkHttpClient.getJobs("");
 
         Assertions.assertNotNull(underTest);
     }

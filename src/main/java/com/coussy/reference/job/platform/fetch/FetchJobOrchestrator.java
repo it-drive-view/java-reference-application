@@ -1,8 +1,8 @@
 package com.coussy.reference.job.platform.fetch;
 
-import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.util.StopWatch;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ public class FetchJobOrchestrator {
             watch.start();
             fetchService.fetch();
             watch.stop();
-            LOGGER.info("fetched job positions for implementation: %s. time elapsed: %s ms.".formatted(implementation, watch.getTime()));
+            LOGGER.info("fetched job positions for implementation: %s. time elapsed: %s ms.".formatted(implementation, watch.getTotalTimeMillis()));
         }
     }
 
