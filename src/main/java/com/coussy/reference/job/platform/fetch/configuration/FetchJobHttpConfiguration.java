@@ -32,14 +32,14 @@ public class FetchJobHttpConfiguration {
         return new FindWorkApiService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository);
     }
 
-    @Bean
-    public FindWorkApiService findWorkPlatformService2(
-            FindworkHttpClient findworkHttpClient,
-            JobPositionDatabaseRepository jobPositionDatabaseRepository,
-            SkillDatabaseRepository skillDatabaseRepository
-    ) {
-        return new FindWorkApiService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository);
-    }
+//    @Bean
+//    public FindWorkApiService findWorkPlatformService2(
+//            FindworkHttpClient findworkHttpClient,
+//            JobPositionDatabaseRepository jobPositionDatabaseRepository,
+//            SkillDatabaseRepository skillDatabaseRepository
+//    ) {
+//        return new FindWorkApiService(findworkHttpClient, jobPositionDatabaseRepository, skillDatabaseRepository);
+//    }
 
     // c'est étrange quie ça ne plante pas !  ce n'est pas un bean !
     @Bean

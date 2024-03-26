@@ -37,7 +37,7 @@ public class FindWorkApiService implements FetchJobs {
             System.out.println(jobs);
 
             for (ResultDto resultDto : jobs.results()) {
-                extracted(resultDto);
+                persistData(resultDto);
             }
 
             nextUrl = jobs.next();
@@ -46,12 +46,12 @@ public class FindWorkApiService implements FetchJobs {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        } while (StringUtils.isEmpty(nextUrl));
+        } while (StringUtils.isNotEmpty(nextUrl));
 
     }
 
     @Transactional
-    private void extracted(ResultDto resultDto) {
+    private void persistData(ResultDto resultDto) {
 
         JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformIdAndPostedAt(JOB_PLATFORM_SOURCE, resultDto.id(), resultDto.date_posted());
         if (jobPosition != null) {
