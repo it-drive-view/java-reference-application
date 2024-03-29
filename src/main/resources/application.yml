@@ -4,6 +4,7 @@ data:
 findwork:
     token: 2a63f298d63f2cda7b33df3b6a2741aeca96d9aa
     url: https://findwork.dev/api
+
 job:
     platforms: findWork
 logging:

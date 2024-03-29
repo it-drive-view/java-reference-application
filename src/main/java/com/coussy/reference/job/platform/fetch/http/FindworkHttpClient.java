@@ -1,6 +1,5 @@
 package com.coussy.reference.job.platform.fetch.http;
 
-import com.coussy.reference.common.configuration.DependencyError;
 import com.coussy.reference.job.platform.fetch.dto.ParentDto;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,26 +8,41 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class FindworkHttpClient {
+public class FindworkHttpClient extends ReferenceApplicationHttpClient {
 
-    private final OkHttpClient okHttpClient;
+    private static final String HTTP_CLIENT_IDENTIFIER = "FINDWORK";
 
-    private final ObjectMapper OBJECT_MAPPER = new ObjectMapper()
-            .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-            .registerModule(new JavaTimeModule());
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FindworkHttpClient.class);
 
     private final String baseUrl;
 
     private final String token;
 
+    private final ObjectMapper OBJECT_MAPPER;
+
+    {
+        OBJECT_MAPPER = new ObjectMapper()
+                .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .registerModule(new JavaTimeModule());
+    }
+
     public FindworkHttpClient(OkHttpClient okHttpClient, String baseUrl, String token) {
-        this.okHttpClient = okHttpClient;
+        super(okHttpClient, HTTP_CLIENT_IDENTIFIER, LOGGER, baseUrl, token);
         this.baseUrl = baseUrl;
+        // TODO passer le token dans le code !!!!!!!!!!!!!!!
+        // TODO passer le token dans le code !!!!!!!!!!!!!!!
         this.token = token;
+    }
+
+    @Override
+    protected String getErrorCode(Response response) {
+        ParentDto dto = deserialize(response);
+        return dto.detail();
     }
 
     public ParentDto getJobs(String url) {
@@ -43,13 +57,14 @@ public class FindworkHttpClient {
         Request request = new Request.Builder()
                 .get()
                 .url(httpUrl)
-                .addHeader("Authorization", "Token 2a63f298d63f2cda7b33df3b6a2741aeca96d9aa")
+                .addHeader("Authorization", "Token %s".formatted(token))
                 .build();
         Response response = callClient(request);
-        return fromJson2(response);
+        return deserialize(response);
     }
 
-    protected ParentDto fromJson2(Response response) {
+    // TODO on peut utiliser le mot clé défault ?
+    protected ParentDto deserialize(Response response) {
         try {
             ParentDto dto = OBJECT_MAPPER
                     .readValue(response.body().string(), ParentDto.class);
@@ -64,21 +79,4 @@ public class FindworkHttpClient {
         }
     }
 
-    private String responseToString(Response response) {
-        return null;
-    }
-
-    protected Response callClient(Request request) {
-
-        try {
-            Response response = okHttpClient.newCall(request).execute();
-            if (response.isSuccessful()) {
-                return response;
-            }
-            throw new DependencyError("DEPENDENCY_ERROR");
-        } catch (IOException e) {
-            throw new DependencyError(e.getMessage());
-        }
-
-    }
 }

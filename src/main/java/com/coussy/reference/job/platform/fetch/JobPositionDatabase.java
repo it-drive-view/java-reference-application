@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "job_position", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"source", "job_platform_id", "posted_at"})})
+        @UniqueConstraint(columnNames = {"source", "job_platform_id"})})
 public class JobPositionDatabase {
 
     public JobPositionDatabase() {
@@ -38,7 +38,7 @@ public class JobPositionDatabase {
         this.jobPlatformId = jobPlatformId;
     }
 
-    @OneToMany(mappedBy = "jobPositionDatabase")
+    @OneToMany(mappedBy = "jobPositionDatabase", fetch = FetchType.EAGER)
     private List<SkillDatabase> JobsFindWorkSkillsDatabase;
 
     public List<SkillDatabase> getJobsFindWorkSkillsDatabase() {

@@ -18,7 +18,7 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class FindWorkApiServiceTestNo {
+class UnitTest {
 
     FindWorkApiService underTest;
 

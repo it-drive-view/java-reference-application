@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FindWorkApiService implements FetchJobs {
 
-    private final String JOB_PLATFORM_SOURCE = "findwork.dev";
+    public static final String JOB_PLATFORM_SOURCE = "findwork.dev";
 
     private final FindworkHttpClient findworkHttpClient;
     private final JobPositionDatabaseRepository jobPositionDatabaseRepository;
@@ -53,7 +53,7 @@ public class FindWorkApiService implements FetchJobs {
     @Transactional
     private void persistData(ResultDto resultDto) {
 
-        JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformIdAndPostedAt(JOB_PLATFORM_SOURCE, resultDto.id(), resultDto.date_posted());
+        JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformId(JOB_PLATFORM_SOURCE, resultDto.id());
         if (jobPosition != null) {
             System.out.println("==> already in database");
             return;
