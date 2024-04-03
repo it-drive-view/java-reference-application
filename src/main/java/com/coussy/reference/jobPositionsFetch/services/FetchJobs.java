@@ -1,4 +1,4 @@
-package com.coussy.reference.job.platform.fetch;
+package com.coussy.reference.jobPositionsFetch.services;
 
 public interface FetchJobs {
 

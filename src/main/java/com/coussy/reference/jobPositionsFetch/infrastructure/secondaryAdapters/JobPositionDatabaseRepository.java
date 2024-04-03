@@ -1,4 +1,4 @@
-package com.coussy.reference.job.platform.fetch;
+package com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

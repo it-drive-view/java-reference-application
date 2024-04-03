@@ -19,6 +19,9 @@ public class DependencyError extends RuntimeException {
         return errorCode;
     }
 
-
+    public String getCode() {
+        return "FAILED_DEPENDENCY_" + dependencyIdentifier;
+    }
 
 }
+

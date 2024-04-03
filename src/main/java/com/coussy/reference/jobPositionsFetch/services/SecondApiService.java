@@ -1,13 +1,11 @@
-package com.coussy.reference.job.platform.fetch.implementation;
+package com.coussy.reference.jobPositionsFetch.services;
 
-import com.coussy.reference.job.platform.fetch.FetchJobs;
-import com.coussy.reference.job.platform.fetch.JobPositionDatabase;
-import com.coussy.reference.job.platform.fetch.dto.ParentDto;
-import com.coussy.reference.job.platform.fetch.dto.ResultDto;
-import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
-import com.coussy.reference.job.platform.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.job.platform.fetch.SkillDatabase;
-import com.coussy.reference.job.platform.fetch.SkillDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabase;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.FindworkHttpClient;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response.UpworkResponse;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabase;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,16 +25,16 @@ public class SecondApiService implements FetchJobs {
     }
 
     public void fetch() {
-        ParentDto jobs = findworkHttpClient.getJobs(null);
+        UpworkResponse jobs = findworkHttpClient.getJobs(null);
         System.out.println(jobs);
 
-        for (ResultDto resultDto : jobs.results()) {
-            JobPositionDatabase jobPositionDatabase = new JobPositionDatabase(SOURCE_NAME, resultDto.id(), resultDto.date_posted());
+        for (UpworkResponse.JobPositionResponse jobPositionResponse : jobs.results()) {
+            JobPositionDatabase jobPositionDatabase = new JobPositionDatabase(SOURCE_NAME, jobPositionResponse.id(), jobPositionResponse.date_posted());
             jobPositionDatabaseRepository.save(jobPositionDatabase);
 
             List<SkillDatabase> skills = new ArrayList<>();
             SkillDatabase skillDatabase;
-            for (String keyword : resultDto.keywords()) {
+            for (String keyword : jobPositionResponse.keywords()) {
                 skillDatabase = new SkillDatabase();
                 skillDatabase.setSkill(keyword);
                 skillDatabase.setJobPositionDatabase(jobPositionDatabase);

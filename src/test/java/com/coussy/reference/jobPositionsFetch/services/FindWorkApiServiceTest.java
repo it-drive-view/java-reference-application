@@ -1,9 +1,9 @@
-package com.coussy.reference.job.platform.fetch.implementation;
+package com.coussy.reference.jobPositionsFetch.services;
 
-import com.coussy.reference.job.platform.fetch.JobPositionDatabase;
-import com.coussy.reference.job.platform.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.job.platform.fetch.SkillDatabase;
-import com.coussy.reference.job.platform.fetch.SkillDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabase;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabase;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockWebServer;

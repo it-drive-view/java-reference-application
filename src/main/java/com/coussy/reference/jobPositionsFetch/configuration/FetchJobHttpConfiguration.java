@@ -1,13 +1,11 @@
-package com.coussy.reference.job.platform.fetch.configuration;
+package com.coussy.reference.jobPositionsFetch.configuration;
 
-import com.coussy.reference.job.platform.fetch.FetchJobOrchestrator;
-import com.coussy.reference.job.platform.fetch.implementation.FindWorkApiService;
-import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
-import com.coussy.reference.job.platform.fetch.JobPositionDatabaseRepository;
-import com.coussy.reference.job.platform.fetch.SkillDatabaseRepository;
-import com.coussy.reference.student.Student;
+import com.coussy.reference.jobPositionsFetch.services.FetchJobOrchestrator;
+import com.coussy.reference.jobPositionsFetch.services.FindWorkApiService;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.FindworkHttpClient;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
 import okhttp3.OkHttpClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;

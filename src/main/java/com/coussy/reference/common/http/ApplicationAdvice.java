@@ -1,8 +1,6 @@
 package com.coussy.reference.common.http;
 
 import com.coussy.reference.common.configuration.DependencyError;
-import com.coussy.reference.common.configuration.DependencyErrorNoException;
-import com.coussy.reference.common.configuration.Dependencyson;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -15,14 +13,8 @@ public class ApplicationAdvice {
     @ExceptionHandler(DependencyError.class)
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
     public ErrorResponseHttp handle(DependencyError dependencyError) {
-        return new ErrorResponseHttp(dependencyError.getErrorCode());
+        return new ErrorResponseHttp(dependencyError.getCode());
     }
-
-//    @ExceptionHandler(DependencyError.class)
-//    @ResponseStatus(HttpStatus.BAD_GATEWAY)
-//    public ErrorResponseHttp handle(Dependencyson dependencySon) {
-//        return new ErrorResponseHttp(dependencySon.getErrorCode());
-//    }
 
 }
 

@@ -1,7 +1,7 @@
-package com.coussy.reference.job.platform.fetch.implementation;
+package com.coussy.reference.jobPositionsFetch.services;
 
-import com.coussy.reference.job.platform.fetch.dto.ParentDto;
-import com.coussy.reference.job.platform.fetch.dto.ResultDto;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response.UpworkResponse;
+import com.coussy.reference.jobPositionsFetch.services.FindWorkApiServiceTest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -32,15 +32,15 @@ public class MockWSDipatcher extends Dispatcher {
 
         if (!recordedRequest.getRequestUrl().toString().contains("page")) {
 
-            ArrayList<ResultDto> results1 = new ArrayList<>();
-            results1.add(new ResultDto("nalrlrX", Arrays.asList("java", "ansible", "python", "node js"), LocalDateTime.of(2024, Month.MAY, 10, 23, 59)));
-            results1.add(new ResultDto("zdljurU", Arrays.asList("cobol", "java", "c++"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
-            results1.add(new ResultDto("ujlroiP", Arrays.asList("vba", "scala", "spring boot", "node js", "cobol"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
-            ParentDto parentDto1 = new ParentDto(3, "http://localhost:%s/api/jobs/?page=2".formatted(FindWorkApiServiceTest.HTTP_PORT), results1);
+            ArrayList<UpworkResponse.JobPositionResponse> results1 = new ArrayList<>();
+            results1.add(new UpworkResponse.JobPositionResponse("nalrlrX", Arrays.asList("java", "ansible", "python", "node js"), LocalDateTime.of(2024, Month.MAY, 10, 23, 59)));
+            results1.add(new UpworkResponse.JobPositionResponse("zdljurU", Arrays.asList("cobol", "java", "c++"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
+            results1.add(new UpworkResponse.JobPositionResponse("ujlroiP", Arrays.asList("vba", "scala", "spring boot", "node js", "cobol"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
+            UpworkResponse upworkResponse1 = new UpworkResponse(3, "http://localhost:%s/api/jobs/?page=2".formatted(FindWorkApiServiceTest.HTTP_PORT), results1, null);
 
             String json;
             try {
-                json = objectMapper.writeValueAsString(parentDto1);
+                json = objectMapper.writeValueAsString(upworkResponse1);
             } catch (JsonProcessingException e) {
                 // TODO
                 // mettre en place ceci..
@@ -56,15 +56,15 @@ public class MockWSDipatcher extends Dispatcher {
         } else if (recordedRequest.getRequestUrl().toString().contains("page=2")) {
 
             {
-                ArrayList<ResultDto> results1 = new ArrayList<>();
-                results1.add(new ResultDto("olltgrA", Arrays.asList("java"), LocalDateTime.of(2024, Month.MAY, 10, 23, 59)));
-                results1.add(new ResultDto("relrfrS", Arrays.asList("c", "c++", "node js"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
-                results1.add(new ResultDto("ijlrrtR", Arrays.asList("kubernetes", "scala", "spring boot", "node js", "python"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
-                ParentDto parentDto1 = new ParentDto(3, null, results1);
+                ArrayList<UpworkResponse.JobPositionResponse> results1 = new ArrayList<>();
+                results1.add(new UpworkResponse.JobPositionResponse("olltgrA", Arrays.asList("java"), LocalDateTime.of(2024, Month.MAY, 10, 23, 59)));
+                results1.add(new UpworkResponse.JobPositionResponse("relrfrS", Arrays.asList("c", "c++", "node js"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
+                results1.add(new UpworkResponse.JobPositionResponse("ijlrrtR", Arrays.asList("kubernetes", "scala", "spring boot", "node js", "python"), LocalDateTime.of(2024, Month.MAY, 9, 23, 59)));
+                UpworkResponse upworkResponse1 = new UpworkResponse(3, null, results1, null);
 
                 String json;
                 try {
-                    json = objectMapper.writeValueAsString(parentDto1);
+                    json = objectMapper.writeValueAsString(upworkResponse1);
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }

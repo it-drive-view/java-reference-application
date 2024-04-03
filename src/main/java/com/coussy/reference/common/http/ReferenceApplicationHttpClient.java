@@ -1,4 +1,4 @@
-package com.coussy.reference.job.platform.fetch.http;
+package com.coussy.reference.common.http;
 
 import com.coussy.reference.common.configuration.DependencyError;
 import okhttp3.OkHttpClient;
@@ -6,7 +6,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
-import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,27 +14,20 @@ import java.util.Objects;
 
 public abstract class ReferenceApplicationHttpClient {
 
+    private final org.slf4j.Logger logger;
     private final OkHttpClient okHttpClient;
+    private final String HTTP_CLIENT_IDENTIFIER;
 
-    private final  String HTTP_CLIENT_IDENTIFIER;
-
-    private final org.slf4j.Logger LOGGER ;
-
-    private final String baseUrl;
-
-    private final String token;
-
-    public ReferenceApplicationHttpClient(OkHttpClient okHttpClient, String httpClientIdentifier, Logger logger, String baseUrl, String token) {
+    public ReferenceApplicationHttpClient(OkHttpClient okHttpClient, String httpClientIdentifier, Logger logger) {
         this.okHttpClient = okHttpClient;
         this.HTTP_CLIENT_IDENTIFIER = httpClientIdentifier;
-        this.LOGGER = logger;
-        this.baseUrl = baseUrl;
-        this.token = token;
+        this.logger = logger;
     }
 
     protected Response callClient(Request request) {
 
         try {
+ 
             Response response = okHttpClient.newCall(request).execute();
             if (response.isSuccessful()) {
                 return response;
@@ -57,7 +49,7 @@ public abstract class ReferenceApplicationHttpClient {
                     errorCode);
 
         } catch (IOException e) {
-            throw new DependencyError(e.getMessage());
+            throw new DependencyError(HTTP_CLIENT_IDENTIFIER, e.getMessage(), null);
         }
 
     }
@@ -67,8 +59,8 @@ public abstract class ReferenceApplicationHttpClient {
         try {
             return response.peekBody(Long.MAX_VALUE).string();
         } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
-            throw new DependencyError(HTTP_CLIENT_IDENTIFIER, "Fail to parse response body", null);
+            logger.error(e.getMessage(), e);
+            throw new DependencyError(HTTP_CLIENT_IDENTIFIER, "Fail to parse response body", getErrorCode(response));
         }
     }
 
@@ -83,7 +75,7 @@ public abstract class ReferenceApplicationHttpClient {
                 "Outbound response error - %s %s %s"
                         .formatted(statusCode, request.method(), request.url().encodedPath());
         var name = "OUTBOUND_RESPONSE_%s".formatted(HTTP_CLIENT_IDENTIFIER);
-        LOGGER.error("title: {} name: {} responseDetails: {}", title, name, responseDetails);
+        logger.error("title: {} name: {} responseDetails: {}", title, name, responseDetails);
     }
 
     private Map<String, Object> getResponseDetails(Response response) {

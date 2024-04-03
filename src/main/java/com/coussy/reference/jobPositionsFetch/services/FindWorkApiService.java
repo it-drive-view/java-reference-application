@@ -1,9 +1,11 @@
-package com.coussy.reference.job.platform.fetch.implementation;
+package com.coussy.reference.jobPositionsFetch.services;
 
-import com.coussy.reference.job.platform.fetch.*;
-import com.coussy.reference.job.platform.fetch.dto.ParentDto;
-import com.coussy.reference.job.platform.fetch.dto.ResultDto;
-import com.coussy.reference.job.platform.fetch.http.FindworkHttpClient;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabase;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabase;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response.UpworkResponse;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.FindworkHttpClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +29,16 @@ public class FindWorkApiService implements FetchJobs {
 
         String nextUrl = null;
         do {
-            ParentDto jobs = findworkHttpClient.getJobs(nextUrl);
+            UpworkResponse jobs = findworkHttpClient.getJobs(nextUrl);
+
+            // Thread sleep only from the 2nd REST http call.
+            if (nextUrl != null) {
+                try {
+                    Thread.sleep(1000 * 5);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 
             System.out.println("=================================");
             System.out.println("=================================");
@@ -36,34 +47,29 @@ public class FindWorkApiService implements FetchJobs {
             System.out.println("=================================");
             System.out.println(jobs);
 
-            for (ResultDto resultDto : jobs.results()) {
-                persistData(resultDto);
+            for (UpworkResponse.JobPositionResponse jobPositionResponse : jobs.results()) {
+                persistData(jobPositionResponse);
             }
 
             nextUrl = jobs.next();
-            try {
-                Thread.sleep(1000 * 5);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
         } while (StringUtils.isNotEmpty(nextUrl));
 
     }
 
     @Transactional
-    private void persistData(ResultDto resultDto) {
+    private void persistData(UpworkResponse.JobPositionResponse jobPositionResponse) {
 
-        JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformId(JOB_PLATFORM_SOURCE, resultDto.id());
+        JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformId(JOB_PLATFORM_SOURCE, jobPositionResponse.id());
         if (jobPosition != null) {
             System.out.println("==> already in database");
             return;
         }
 
         JobPositionDatabase jobPositionDatabase = new JobPositionDatabase
-                (JOB_PLATFORM_SOURCE, resultDto.id(), resultDto.date_posted() );
+                (JOB_PLATFORM_SOURCE, jobPositionResponse.id(), jobPositionResponse.date_posted());
         jobPositionDatabaseRepository.save(jobPositionDatabase);
 
-        List<SkillDatabase> skills = resultDto.keywords().stream()
+        List<SkillDatabase> skills = jobPositionResponse.keywords().stream()
                 .map(skill -> new SkillDatabase(skill, jobPositionDatabase))
                 .toList();
         skillDatabaseRepository.saveAll(skills);

@@ -1,6 +1,7 @@
-package com.coussy.reference.job.platform.fetch.http;
+package com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters;
 
-import com.coussy.reference.job.platform.fetch.dto.ParentDto;
+import com.coussy.reference.common.http.ReferenceApplicationHttpClient;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response.UpworkResponse;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -32,20 +33,19 @@ public class FindworkHttpClient extends ReferenceApplicationHttpClient {
     }
 
     public FindworkHttpClient(OkHttpClient okHttpClient, String baseUrl, String token) {
-        super(okHttpClient, HTTP_CLIENT_IDENTIFIER, LOGGER, baseUrl, token);
+        super(okHttpClient, HTTP_CLIENT_IDENTIFIER, LOGGER);
         this.baseUrl = baseUrl;
-        // TODO passer le token dans le code !!!!!!!!!!!!!!!
-        // TODO passer le token dans le code !!!!!!!!!!!!!!!
         this.token = token;
+
     }
 
     @Override
     protected String getErrorCode(Response response) {
-        ParentDto dto = deserialize(response);
+        UpworkResponse dto = deserialize(response);
         return dto.detail();
     }
 
-    public ParentDto getJobs(String url) {
+    public UpworkResponse getJobs(String url) {
 
         HttpUrl httpUrl;
         if (url == null) {
@@ -64,10 +64,10 @@ public class FindworkHttpClient extends ReferenceApplicationHttpClient {
     }
 
     // TODO on peut utiliser le mot clé défault ?
-    protected ParentDto deserialize(Response response) {
+    protected UpworkResponse deserialize(Response response) {
         try {
-            ParentDto dto = OBJECT_MAPPER
-                    .readValue(response.body().string(), ParentDto.class);
+            UpworkResponse dto = OBJECT_MAPPER
+                    .readValue(response.body().string(), UpworkResponse.class);
             return dto;
 
 //            return OBJECT_MAPPER
