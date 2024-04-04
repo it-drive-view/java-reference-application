@@ -61,7 +61,6 @@ public class FindWorkApiService implements FetchJobs {
 
         JobPositionDatabase jobPosition = jobPositionDatabaseRepository.findBySourceAndJobPlatformId(JOB_PLATFORM_SOURCE, jobPositionResponse.id());
         if (jobPosition != null) {
-            System.out.println("==> already in database");
             return;
         }
 

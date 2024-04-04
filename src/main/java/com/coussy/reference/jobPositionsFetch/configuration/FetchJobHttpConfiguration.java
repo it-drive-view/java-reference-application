@@ -1,5 +1,6 @@
 package com.coussy.reference.jobPositionsFetch.configuration;
 
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SchedulerDatabaseRepository;
 import com.coussy.reference.jobPositionsFetch.services.FetchJobOrchestrator;
 import com.coussy.reference.jobPositionsFetch.services.FindWorkApiService;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.FindworkHttpClient;
@@ -41,8 +42,8 @@ public class FetchJobHttpConfiguration {
 
     // c'est étrange quie ça ne plante pas !  ce n'est pas un bean !
     @Bean
-    public FetchJobOrchestrator fetchJobOrchestrator(@Value("#{'${job.platforms}'.split(',')}") List<String> jobPlatforms, ApplicationContext applicationContext) {
-        return new FetchJobOrchestrator(jobPlatforms, applicationContext);
+    public FetchJobOrchestrator fetchJobOrchestrator(@Value("#{'${job.platforms}'.split(',')}") List<String> jobPlatforms, ApplicationContext applicationContext, SchedulerDatabaseRepository schedulerDatabaseRepository) {
+        return new FetchJobOrchestrator(jobPlatforms, applicationContext, schedulerDatabaseRepository);
     }
 
 }

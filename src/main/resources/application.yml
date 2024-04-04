@@ -14,13 +14,14 @@ server:
         include-message: always
 spring:
     datasource:
-        password: root
-        url: jdbc:postgresql://localhost:5432/reference
-        username: postgres
+#        url: jdbc:postgresql://localhost:5432/reference
+        url: jdbc:postgresql://localhost:5435/reference
+        username: reference-user
+        password: pkuoir7842
     jpa:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
         properties:
             hibernate:
                 format_sql: true

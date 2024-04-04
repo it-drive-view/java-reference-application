@@ -1,0 +1,22 @@
+version: '3.8'
+services: 
+  db: 
+    container_name: docker_pg
+    environment: 
+      POSTGRES_PASSWORD: pkuoir7842
+      POSTGRES_USER: reference-user
+      POSTGRES_DB: reference
+    image: "postgres:12"
+    ports:
+      - "5435:5432"      
+    volumes: 
+      - pg-data10:/var/lib/postgresql/data
+version: "3"
+volumes: 
+  pg-data10: 
+    driver: local
+
+
+
+
+
