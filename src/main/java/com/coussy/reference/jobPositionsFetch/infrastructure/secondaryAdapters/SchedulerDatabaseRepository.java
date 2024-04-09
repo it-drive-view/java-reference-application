@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface SchedulerDatabaseRepository extends CrudRepository<SchedulerDatabase, UUID> {
 
-    SchedulerDatabase findByImplementationAndFetchedAt(String implementation, LocalDate fetchedAt);
+    SchedulerDatabase findByImplementationAndLastFetchedAt(String implementation, LocalDate lastFetchedAt);
 
     SchedulerDatabase findByImplementation(String implementation);
 

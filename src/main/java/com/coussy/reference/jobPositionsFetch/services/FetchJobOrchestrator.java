@@ -29,7 +29,7 @@ public class FetchJobOrchestrator implements ApplicationRunner {
     public void fetch() {
         for (String implementation : fetchJobsImplementations) {
 
-            SchedulerDatabase schedule = schedulerDatabaseRepository.findByImplementationAndFetchedAt(implementation, LocalDate.now());
+            SchedulerDatabase schedule = schedulerDatabaseRepository.findByImplementationAndLastFetchedAt(implementation, LocalDate.now());
             if (schedule != null) {
                 LOGGER.info("implementation %s : jobs positions have already been fetched this day. skipping..".formatted(implementation));
                 continue;
@@ -60,7 +60,7 @@ public class FetchJobOrchestrator implements ApplicationRunner {
 
         SchedulerDatabase schedule = schedulerDatabaseRepository.findByImplementation(implementation);
         if (schedule != null) {
-            schedule.setFetchedAt(LocalDate.now());
+            schedule.setLastFetchedAt(LocalDate.now());
         } else {
             schedule = new SchedulerDatabase(implementation, LocalDate.now());
         }

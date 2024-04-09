@@ -14,10 +14,11 @@ public class JobPositionDatabase {
     public JobPositionDatabase() {
     }
 
-    public JobPositionDatabase(String source, String jobPlatformId, LocalDateTime postedAt) {
+    public JobPositionDatabase(String source, String jobPlatformId, LocalDateTime postedAt, LocalDateTime fetched_at) {
         this.source = source;
         this.jobPlatformId = jobPlatformId;
         this.postedAt = postedAt;
+        this.fetched_at = fetched_at;
     }
 
     @GeneratedValue
@@ -29,6 +30,9 @@ public class JobPositionDatabase {
 
     @Column(name = "job_platform_id")
     String jobPlatformId;
+
+    @Column(name = "fetched_at")
+    LocalDateTime fetched_at;
 
     public String getJobPlatformId() {
         return jobPlatformId;
@@ -74,5 +78,13 @@ public class JobPositionDatabase {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public LocalDateTime getFetched_at() {
+        return fetched_at;
+    }
+
+    public void setFetched_at(LocalDateTime fetched_at) {
+        this.fetched_at = fetched_at;
     }
 }

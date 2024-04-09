@@ -7,6 +7,7 @@ import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.J
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabase;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class SecondApiService implements FetchJobs {
         System.out.println(jobs);
 
         for (UpworkResponse.JobPositionResponse jobPositionResponse : jobs.results()) {
-            JobPositionDatabase jobPositionDatabase = new JobPositionDatabase(SOURCE_NAME, jobPositionResponse.id(), jobPositionResponse.date_posted());
+            JobPositionDatabase jobPositionDatabase = new JobPositionDatabase(SOURCE_NAME, jobPositionResponse.id(), jobPositionResponse.date_posted() , LocalDateTime.now());
             jobPositionDatabaseRepository.save(jobPositionDatabase);
 
             List<SkillDatabase> skills = new ArrayList<>();

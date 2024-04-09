@@ -9,6 +9,7 @@ import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.F
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class FindWorkApiService implements FetchJobs {
@@ -65,7 +66,7 @@ public class FindWorkApiService implements FetchJobs {
         }
 
         JobPositionDatabase jobPositionDatabase = new JobPositionDatabase
-                (JOB_PLATFORM_SOURCE, jobPositionResponse.id(), jobPositionResponse.date_posted());
+                (JOB_PLATFORM_SOURCE, jobPositionResponse.id(), jobPositionResponse.date_posted() , LocalDateTime.now());
         jobPositionDatabaseRepository.save(jobPositionDatabase);
 
         List<SkillDatabase> skills = jobPositionResponse.keywords().stream()

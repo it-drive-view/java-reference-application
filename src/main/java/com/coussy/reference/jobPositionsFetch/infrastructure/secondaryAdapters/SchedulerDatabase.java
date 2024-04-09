@@ -21,12 +21,12 @@ public class SchedulerDatabase {
     @Column(name = "implementation")
     private String implementation;
 
-    @Column(name = "fetched_at")
-    private LocalDate fetchedAt;
+    @Column(name = "last_fetched_at")
+    private LocalDate lastFetchedAt;
 
-    public SchedulerDatabase(String implementation, LocalDate fetchedAt) {
+    public SchedulerDatabase(String implementation, LocalDate lastFetchedAt) {
         this.implementation = implementation;
-        this.fetchedAt = fetchedAt;
+        this.lastFetchedAt = lastFetchedAt;
     }
 
     public SchedulerDatabase() {
@@ -36,12 +36,12 @@ public class SchedulerDatabase {
         return uuid;
     }
 
-    public LocalDate getFetchedAt() {
-        return fetchedAt;
+    public LocalDate getLastFetchedAt() {
+        return lastFetchedAt;
     }
 
-    public void setFetchedAt(LocalDate fetchedAt) {
-        this.fetchedAt = fetchedAt;
+    public void setLastFetchedAt(LocalDate lastFetchedAt) {
+        this.lastFetchedAt = lastFetchedAt;
     }
 
     public String getImplementation() {
