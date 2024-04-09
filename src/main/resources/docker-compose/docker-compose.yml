@@ -10,10 +10,10 @@ services:
     ports:
       - "5435:5432"      
     volumes: 
-      - pg-data10:/var/lib/postgresql/data
+      - data-reference:/var/lib/postgresql/data
 version: "3"
 volumes: 
-  pg-data10: 
+  data-reference: 
     driver: local
 
 

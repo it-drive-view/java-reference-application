@@ -27,6 +27,7 @@ public class FetchJobOrchestrator implements ApplicationRunner {
     }
 
     public void fetch() {
+
         for (String implementation : fetchJobsImplementations) {
 
             SchedulerDatabase schedule = schedulerDatabaseRepository.findByImplementationAndLastFetchedAt(implementation, LocalDate.now());
