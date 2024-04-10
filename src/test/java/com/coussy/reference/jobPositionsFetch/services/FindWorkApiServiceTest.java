@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -23,7 +25,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.io.IOException;
 import java.util.List;
 
-
+@ActiveProfiles("test")
 @SpringBootTest
 @Testcontainers
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -57,8 +59,12 @@ class FindWorkApiServiceTest {
     // est-ce qu'il faut pas mettre la version dans le fichier properties ?
     static PostgreSQLContainer container = new PostgreSQLContainer("postgres:12")
             .withDatabaseName("test")
-            .withUsername("coussy")
+            .withUsername("reference-user")
             .withPassword("pwd");
+
+//    url: jdbc:postgresql://localhost:5435/reference
+//    username:
+//    password: pkuoir7842
 
     @DynamicPropertySource
     static void set(DynamicPropertyRegistry propertyRegistry) {

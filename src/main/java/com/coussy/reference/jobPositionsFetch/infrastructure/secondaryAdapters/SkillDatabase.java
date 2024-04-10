@@ -33,4 +33,8 @@ public class SkillDatabase {
     public void setJobPositionDatabase(JobPositionDatabase jobPositionDatabase) {
         this.jobPositionDatabase = jobPositionDatabase;
     }
+
+    public String getSkill() {
+        return skill;
+    }
 }

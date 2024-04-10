@@ -6,21 +6,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.StopWatch;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class FetchJobOrchestrator implements FetchJob, ApplicationRunner {
+public class FetchJobOrchestratorFake implements FetchJob {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FetchJobOrchestrator.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FetchJobOrchestratorFake.class);
 
     private final List<String> fetchJobsImplementations;
     private final ApplicationContext applicationContext;
     private final SchedulerDatabaseRepository schedulerDatabaseRepository;
 
-    public FetchJobOrchestrator(List<String> fetchJobsImplementations, ApplicationContext applicationContext, SchedulerDatabaseRepository schedulerDatabaseRepository) {
+    public FetchJobOrchestratorFake(List<String> fetchJobsImplementations, ApplicationContext applicationContext, SchedulerDatabaseRepository schedulerDatabaseRepository) {
         this.fetchJobsImplementations = fetchJobsImplementations;
         this.applicationContext = applicationContext;
         this.schedulerDatabaseRepository = schedulerDatabaseRepository;
@@ -66,11 +67,6 @@ public class FetchJobOrchestrator implements FetchJob, ApplicationRunner {
             schedule = new SchedulerDatabase(implementation, LocalDate.now());
         }
         schedulerDatabaseRepository.save(schedule);
-    }
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        this.fetch();
     }
 
     // each day at 11:10 pm
