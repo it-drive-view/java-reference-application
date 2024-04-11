@@ -25,7 +25,7 @@ public class StatisticController {
         return new ResponseEntity<>(statDto, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/skills/by/keyword")
+    @GetMapping("/job/keywords")
     public ResponseEntity<List<Map.Entry<String, Long>>> getSkills() {
         List<Map.Entry<String, Long>> result = statisticService.computeSkills();
         return new ResponseEntity<>(result, HttpStatusCode.valueOf(200));
