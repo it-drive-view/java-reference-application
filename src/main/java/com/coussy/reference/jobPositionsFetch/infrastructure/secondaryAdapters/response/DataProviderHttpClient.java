@@ -1,8 +1,6 @@
-package com.coussy.reference.data.provider.http;
+package com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response;
 
 import com.coussy.reference.common.configuration.DependencyError;
-import com.coussy.reference.data.provider.dto.ProductDto;
-import com.coussy.reference.data.provider.dto.TemperatureDto;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,7 +12,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Objects;
 
 public class DataProviderHttpClient {
 
@@ -42,30 +40,6 @@ public class DataProviderHttpClient {
         String token = fromJson(response, String.class);
         response.close();
         return token;
-    }
-
-    public ProductDto getProduct() {
-
-        HttpUrl httpUrl = HttpUrl.parse("%s/data/product".formatted(url));
-        Request request = new Request.Builder().get().url(httpUrl).build();
-        Response response = callClient(request);
-        ProductDto productDto = fromJson(response, ProductDto.class);
-        response.close();
-        return productDto;
-    }
-
-    public List<TemperatureDto> getTemperatures() {
-
-        HttpUrl httpUrl = HttpUrl.parse("%s/temperatures".formatted(url));
-        Request request = new Request.Builder().get().url(httpUrl).build();
-        Response response = callClient(request);
-
-        List<TemperatureDto> productDto = fromJson(response, new TypeReference<List<TemperatureDto>>() {});
-
-        // TODO-STEP jouer avec F8 et F7 à partir d'ici
-//        List<TemperatureDto> productDto = fromJson2(response);
-
-        return productDto;
     }
 
     private void m1(Response response) {
@@ -106,31 +80,5 @@ public class DataProviderHttpClient {
             throw new IllegalStateException("prob !!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
-
-    protected List<TemperatureDto> fromJson2(Response response) {
-        try {
-
-            TemperatureDto[] temperatureDtos = OBJECT_MAPPER
-                    .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-                    .readValue(response.body().string(), TemperatureDto[].class);
-            List<TemperatureDto> temperatureDtos1 = Arrays.asList(temperatureDtos);
-            return temperatureDtos1;
-
-//            return OBJECT_MAPPER
-//                    .disable(DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE)
-//                    .readValue(Objects.requireNonNull(response.body()).string(), valueTypeRef);
-        } catch (IOException | NullPointerException e) {
-//            throw new DependencyError(HTTP_CLIENT_IDENTIFIER, e);
-            throw new IllegalStateException("prob !!!!!!!!!!!!!!!!!!!!!!!");
-        }
-    }
-
-
-
-
-
-
-
-
 
 }

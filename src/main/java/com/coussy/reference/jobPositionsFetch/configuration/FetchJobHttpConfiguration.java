@@ -1,6 +1,7 @@
 package com.coussy.reference.jobPositionsFetch.configuration;
 
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SchedulerDatabaseRepository;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response.DataProviderHttpClient;
 import com.coussy.reference.jobPositionsFetch.services.FetchJob;
 import com.coussy.reference.jobPositionsFetch.services.FetchJobOrchestrator;
 import com.coussy.reference.jobPositionsFetch.services.FetchJobOrchestratorFake;
@@ -19,6 +20,11 @@ import java.util.List;
 
 @Configuration
 public class FetchJobHttpConfiguration {
+
+    @Bean
+    DataProviderHttpClient dataProviderHttpClient(OkHttpClient okHttpClient, @Value("${dataprovider.url}") String baseUrl) {
+        return new DataProviderHttpClient(okHttpClient, baseUrl);
+    }
 
     @Bean
     public FindworkHttpClient findworkHttpClient(OkHttpClient okHttpClient, @Value("${findwork.url}") String baseUrl, @Value("${findwork.token}") String token) {

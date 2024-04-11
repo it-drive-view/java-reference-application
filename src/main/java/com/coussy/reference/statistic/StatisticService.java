@@ -1,6 +1,6 @@
 package com.coussy.reference.statistic;
 
-import com.coussy.reference.data.provider.http.DataProviderHttpClient;
+import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.response.DataProviderHttpClient;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabase;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
 import org.springframework.stereotype.Service;
