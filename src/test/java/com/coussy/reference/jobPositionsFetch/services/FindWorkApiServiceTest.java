@@ -4,6 +4,7 @@ import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.J
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.JobPositionDatabaseRepository;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabase;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SkillDatabaseRepository;
+import com.coussy.reference.statistic.StatisticService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockWebServer;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -24,6 +24,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -38,6 +40,9 @@ class FindWorkApiServiceTest {
 
     @Autowired
     SkillDatabaseRepository skillDatabaseRepository;
+
+    @Autowired
+    StatisticService statisticService;
 
     @Autowired
     FindWorkApiService findWorkApiService;
@@ -105,6 +110,20 @@ class FindWorkApiServiceTest {
         Assertions.assertEquals(3, jp5.getJobsFindWorkSkillsDatabase().size());
         JobPositionDatabase jp6 = jobPositionDatabaseRepository.findBySourceAndJobPlatformId(FindWorkApiService.JOB_PLATFORM_SOURCE, "ijlrrtR");
         Assertions.assertEquals(5, jp6.getJobsFindWorkSkillsDatabase().size());
+
+        List<Map.Entry<String, Long>> entries = statisticService.computeSkills();
+
+        Optional<Long> node_js = entries.stream().filter(entry -> entry.getKey().equals("node js")).map(Map.Entry::getValue).findFirst();
+        Assertions.assertTrue(node_js.isPresent());
+        Assertions.assertEquals(node_js.get(), 4);
+
+        Optional<Long> java = entries.stream().filter(entry -> entry.getKey().equals("java")).map(Map.Entry::getValue).findFirst();
+        Assertions.assertTrue(java.isPresent());
+        Assertions.assertEquals(java.get(), 3);
+
+        Optional<Long> springboot = entries.stream().filter(entry -> entry.getKey().equals("spring boot")).map(Map.Entry::getValue).findFirst();
+        Assertions.assertTrue(springboot.isPresent());
+        Assertions.assertEquals(springboot.get(), 2);
     }
 
 }
