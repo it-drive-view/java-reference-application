@@ -3,25 +3,21 @@ package com.coussy.reference.jobPositionsFetch.services;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SchedulerDatabase;
 import com.coussy.reference.jobPositionsFetch.infrastructure.secondaryAdapters.SchedulerDatabaseRepository;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.util.StopWatch;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public class FetchJobOrchestratorFake implements FetchJob {
+public class FetchService {
 
-    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FetchJobOrchestratorFake.class);
+    private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FetchJobOrchestrator.class);
 
-    private final List<String> fetchJobsImplementations;
-    private final ApplicationContext applicationContext;
     private final SchedulerDatabaseRepository schedulerDatabaseRepository;
+    private final ApplicationContext applicationContext;
+    private final List<String> fetchJobsImplementations;
 
-    public FetchJobOrchestratorFake(List<String> fetchJobsImplementations, ApplicationContext applicationContext, SchedulerDatabaseRepository schedulerDatabaseRepository) {
+    public FetchService(List<String> fetchJobsImplementations, ApplicationContext applicationContext, SchedulerDatabaseRepository schedulerDatabaseRepository) {
         this.fetchJobsImplementations = fetchJobsImplementations;
         this.applicationContext = applicationContext;
         this.schedulerDatabaseRepository = schedulerDatabaseRepository;
@@ -58,7 +54,7 @@ public class FetchJobOrchestratorFake implements FetchJob {
         }
     }
 
-    public void persistScheduler(String implementation) {
+    private void persistScheduler(String implementation) {
 
         SchedulerDatabase schedule = schedulerDatabaseRepository.findByImplementation(implementation);
         if (schedule != null) {
@@ -67,12 +63,6 @@ public class FetchJobOrchestratorFake implements FetchJob {
             schedule = new SchedulerDatabase(implementation, LocalDate.now());
         }
         schedulerDatabaseRepository.save(schedule);
-    }
-
-    // each day at 11:10 pm
-    @Scheduled(cron = "0 10 23 * * ?")
-    public void schedule() {
-        this.fetch();
     }
 
 }
